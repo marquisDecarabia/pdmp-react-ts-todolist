@@ -1,26 +1,27 @@
 import React from 'react';
-import logo from '../../assets/logo.svg';
-import './index.css';
+import TodoList from "../../components/TodoList";
+import useTodo from "../../hooks/useTodo";
 
 function Home() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const {todos, itemCountSpan, uncheckedCountSpan, addTodo} = useTodo()
+    const handleSubmit: HandleSubmit = (e) => {
+        e.preventDefault()
+        addTodo()
+    }
+
+    return (
+        <div className="container center">
+            <h1 className="center title">My TODO App (but in React + TS)</h1>
+            <div className="flow-right controls">
+                <span>Item count: <span id="item-count">{ itemCountSpan }</span></span>
+                <span>Unchecked count: <span id="unchecked-count">{ uncheckedCountSpan }</span></span>
+            </div>
+            <form className="center" onSubmit={handleSubmit}>
+                <button type="submit" className="button center" onClick={() => addTodo}>New TODO</button>
+            </form>
+            <TodoList todos={todos} />
+        </div>
+    )
 }
 
 export default Home;
