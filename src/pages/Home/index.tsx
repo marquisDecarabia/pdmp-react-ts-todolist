@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import TodoList from "../../components/TodoList";
-import useTodo from "../../hooks/useTodo";
 import Todo from "../../components/Todo";
 
 function Home() {
@@ -9,15 +8,8 @@ function Home() {
         addTodo()
     }
     const [todos, setTodos] = useState<Todo[]>(JSON.parse(localStorage.getItem('todos') || "[]"))
-    const [itemCountSpan, setItemCountSpan] = useState(0)
-    const [uncheckedCountSpan, setUncheckedCountSpan] = useState(0)
 
     useEffect(() => {
-        const updateCounters = () => {
-            setItemCountSpan(todos.length)
-            setUncheckedCountSpan(todos.filter((todoEl) => !todoEl?.checked).length)
-        }
-        updateCounters()
         localStorage.setItem('todos', JSON.stringify(todos))
     }, [todos])
 
@@ -46,8 +38,8 @@ function Home() {
         <div className="container center">
             <h1 className="center title">My TODO App (but in React + TS)</h1>
             <div className="flow-right controls">
-                <span>Item count: <span id="item-count">{ itemCountSpan }</span></span>
-                <span>Unchecked count: <span id="unchecked-count">{ uncheckedCountSpan }</span></span>
+                <span>Item count: <span id="item-count">{ todos.length }</span></span>
+                <span>Unchecked count: <span id="unchecked-count">{ todos.filter((todoEl) => !todoEl?.checked).length }</span></span>
             </div>
             <form className="center" onSubmit={handleSubmit}>
                 <button type="submit" className="button center" onClick={() => addTodo}>New TODO</button>
